@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+{% include "user/_onglet.html.twig" %}
+
+{% for message in app.flashes('success') %}
+<article class="message is-success">
+    <div class="message-body">
+        {{message}}
+    </div>
+</article>
+{% endfor %}
+
+<div class="columns is-centered">
+    <div class="column is-half">
+        {{form(form)}}
+    </div>
+</div>
+{% endblock %}

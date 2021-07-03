@@ -1,0 +1,22 @@
+<div class="tabs is-centered">
+    <ul class="is-size-5">
+        <li class="{% if current_menu is defined and current_menu == 'profil' %}is-active{% endif %}"><a
+                class="{% if current_menu is defined and current_menu != 'profil' %}has-text-light{% endif %}"
+                href="{{ path('user_account') }}">Profil</a></li>
+        <li class="{% if current_menu is defined and current_menu == 'mesMusiques' %}is-active{% endif %}"><a
+                class="{% if current_menu is defined and current_menu != 'mesMusiques' %}has-text-light{% endif %}"
+                href="{{ path('user_musics_show') }}">Mes musiques</a></li>
+        {# <li><a>Mes Vidéos</a></li> #}
+        <li class="{% if current_menu is defined and current_menu == 'panier' %}is-active{% endif %}"><a
+                class="{% if current_menu is defined and current_menu != 'panier' %}has-text-light{% endif %}"
+                href="{{ path('cart_index') }}">Mon Panier</a></li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <li>
+            <a href="{{path('admin_index')}}" class="has-text-light">Add Artist new song</a>
+        </li>
+        <li>
+            <a href="{{path('admin_addAlbum')}}" class="has-text-light">Add Artist new Album</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

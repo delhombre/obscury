@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+{% block title %}Obscury - Musiques{% endblock %}
+{% block stylesheets %}
+<style>
+	a {
+		text-decoration: none !important;
+	}
+
+</style>
+{% endblock %}
+{% block body %}
+<div class="container">
+	<p class="title has-text-primary has-text-left major_mono">Toutes les
+		<span class="has-text-white has-text-warning has-text-weight-light">Musiques</span>
+	</p>
+	<div class="columns is-multiline is-centered notification transparent">
+		{% for musique in musiques %}
+		<div class="column is-4-desktop is-6-tablet">
+			<div class="box has-background-black-ter omega">
+				<div class="media">
+					<figure class="media-left">
+						<p>
+							<a href="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}"
+								class="has-text-light">
+								<img class="image is-128x128" src="{{ vich_uploader_asset(musique, 'imageFile') }}"
+									style="border-radius: 15px;">
+							</a>
+						</p>
+					</figure>
+					<div class="media-content">
+						<div class="content">
+							<p>
+								<a href="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}"
+									class="has-text-light">
+									<h1 class="is-size-5 is-uppercase">{{ musique.title }}</h1>
+								</a>
+								<span
+									class="subtitle is-size-5 has-text-grey has-text-weight-light is-capitalized">{{ musique.user.username }}
+								</span><br>
+								<small class="has-text-danger">·
+									{{ musique.likes | length }}
+									<i class="fas fa-heart"></i>
+								</small>
+							</p>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+		{% endfor %}
+	</div>
+
+
+	<div class="pagination is-rounded">
+		{{ knp_pagination_render(musiques) }}
+	</div>
+</div>
+{% endblock %}

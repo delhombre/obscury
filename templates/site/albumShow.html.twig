@@ -1,0 +1,78 @@
+{% extends "base.html.twig" %}
+
+{% block head %}
+<meta name="description" content="OBSCURY - {{album.user}}">
+<meta property="og:title" content="{{album.user}} - {{album.title}}">
+<meta property="og:description" content="Mixtape {{album.title|upper}} de l'artiste {{album.user|upper}} sur OBSCURY. Date de mise en ligne: {{album.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y')}}">
+<meta name="keywords" content="{{album.user}}, {{album.title}}, streaming, telechargements, musiques, hits, videos, chansons, partage">
+<meta property="og:url" content="{{path('album_show', {'id':album.id})}}">
+<meta property="og:site_name" content="obscury.com">
+<meta property="og:image" content="{{ vich_uploader_asset(album, 'imageFile') }}">
+<link rel='image_src' href="{{ vich_uploader_asset(album, 'imageFile') }}" />
+<meta property="og:image:secure_url" content="{{ vich_uploader_asset(album, 'imageFile') }}"
+
+{#<meta property="og:image:width" content="1000" />#}
+{#<meta property="og:image:height" content="1000" />#}
+
+<meta property="og:image:alt" content="{{album.user}} - {{album.title}}" />
+{% endblock %}
+
+{% block title %}{{album.title}} - {{album.user}}{% endblock %}
+{% block stylesheets %}
+<link href="/audioPlayer.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+<section class="hero is-black is-bold">
+	<div class="hero-body">
+		<div class="container">
+			<div class="columns is-vcentered">
+				<div class="column">
+					<div class="columns is-vcentered is-mobile">
+						<div class="column">
+							<figure class="image is-128x128">
+								<img class="has-ratio" src="{{ vich_uploader_asset(album, 'imageFile') }}"
+									alt="{{album.title}}" style="border-radius:5px;">
+							</figure>
+						</div>
+						<div class="column">
+							<h1 class="title">
+								{{album.title}}
+							</h1>
+							<h2 class="subtitle opac is-lowercase has-text-weight-light">
+								@{{artistName}}
+							</h2>
+						</div>
+					</div>
+				</div>
+				<div class="column is-variable is-3 has-text-centered">
+					<h3 class="is-size-5 is-capitalized content has-text-danger">{{album.musique|length}}
+						{% if album.musique|length <=1%}
+						titre
+						{% else %}
+						titres
+						{% endif %}
+					</h3>
+					{% for music in album.musique %}
+					{% cache 'music' ~ music.id music.updatedAt.timestamp %}
+					<p class="subtitle">
+						<span class="has-text-link major_mono">{{loop.index}}.</span>
+						<a class="has-text-grey"
+							href="{{ path('music_show', {'id': music.id, 'slug': music.slug}) }}">{{music.title}}
+							{% if music.featuring != null %}feat
+							{{music.featuring}}
+							{% endif %}
+						</a>&emsp;
+						<a href="{{ path('music_download', {'id': music.id}) }}" style="border-radius: 50%;">
+							<i class="fas fa-cloud-download-alt" style="color: violet;"></i>
+						</a>
+					</p>
+					{% endcache %}
+					{% endfor %}
+
+				</div>
+			</div>
+
+		</div>
+	</div>
+</section>
+{% endblock %}

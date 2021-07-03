@@ -1,0 +1,70 @@
+{% extends "base.html.twig" %}
+{% block title %}Mon panier{% endblock %}
+{% block body %}
+{% include "user/_onglet.html.twig" %}
+<div class="container">
+	<div class="notification has-text-grey is-size-3 is-uppercase major_mono has-background-black-ter">
+		Votre panier
+	</div>
+	<div class="container is-fluid">
+		<div class="container is-fluid">
+			{% if items|length > 0 %}
+			<div class="table-container">
+				<table class="table is-fullwidth has-background-black-ter">
+					<thead>
+						<tr>
+							<th class="has-text-grey-lighter is-size-5-desktop" style="border:none;">Forfait</th>
+							<th class="has-text-grey-lighter is-size-5-desktop" style="border:none;">Prix</th>
+							<th class="has-text-grey-lighter is-size-5-desktop" style="border:none;">Quantité</th>
+							<th class="has-text-grey-lighter is-size-5-desktop" style="border:none;">Total</th>
+							<th style="border:none;"></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for item in items %}
+						<tr>
+							<td class="has-text-grey is-size-5-desktop" style="border:none;">{{item.forfait.title}}</td>
+							<td class="has-text-grey is-size-5-desktop" style="border:none;">
+								{{item.forfait.formattedPrice}}</td>
+							<td class="has-text-grey is-size-5-desktop" style="border:none;">{{item.quantity}}</td>
+							<td class="has-text-grey is-size-5-desktop" style="border:none;">
+								{{(item.forfait.price * item.quantity)|number_format(0, '', ' ')}}</td>
+							<td style="border:none;">
+								<a href="{{path('cart_remove', {'id': item.forfait.id})}}"
+									class="button is-danger icon">
+									<i class="fa fa-trash"></i>
+								</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3" class="has-text-grey-lighter has-text-right is-size-5-desktop"
+								style="border:none;">Total
+								:
+							</td>
+							<td colspan="2" class="has-text-primary is-size-5-desktop" style="border:none;">
+								{{total|number_format(0, '', ' ')}} XOF</td>
+							<td style="border:none;"></td>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+			<p class="is-size-5 has-text-white has-text-centered content">Contactez-nous sur
+				<a href="https://wa.me/22378459851?text={{"Bonjour je voudrais souscrire à un abonnement" ~ " " ~ title ~ "." ~ " Le total fait " ~ total|number_format(0, '', ' ') ~ "FCFA." ~ "\n" ~ "Mon adresse email est : " ~ app.user.email}}"
+					style="color: #075e54;">
+					<i class="fab fa-whatsapp"></i>
+					<span>Whatsapp</span>
+				</a>
+				pour activer votre abonnement.
+			</p>
+			{% else %}
+			<p class="has-text-primary has-text-centered">
+				Vous n'avez pas de forfait en cours d'achat, votre panier est vide !
+			</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}

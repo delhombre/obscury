@@ -1,0 +1,184 @@
+{% extends "base.html.twig" %}
+{% block title %}Mes musiques{% endblock %}
+{% block body %}
+{% include "user/_onglet.html.twig" %}
+<div class="columns is-multiline">
+	<div
+		class="modal{% for music in musics %} {% if path('music_edit', {'id': music.id}) == app.request.requestUri %}is-active{% endif %} {% endfor %}"
+		id="myModal">
+		<div class="modal-background"></div>
+		<div class="modal-content">
+			<!-- Any other Bulma elements you want -->
+			<div class="box has-background-black-ter omega">
+				<p class="title is-4 major_mono has-text-primary">Modifications</p>
+				<hr>
+				{{ form_start(formMusique) }}
+				<div class="columns is-mobile">
+					<div class="column">
+						<div class="field">
+							<label for="musique_title" class="label has-text-grey">Titre</label>
+							{{form_widget(formMusique.title, {'attr': {'placeholder': 'Titre de la zik . . .'}})}}
+						</div>
+					</div>
+					<div class="column">
+						<div class="field">
+							<label for="musique_featuring" class="label has-text-grey">Featuring ?</label>
+							{{form_widget(formMusique.featuring, {'attr': {'placeholder': 'Nom de l\'artiste en feat . . .'}})}}
+							<p class="help is-link">Laissez ce champ vide s'il n'ya pas de featuring !</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="columns is-mobile">
+					<div class="column is-narrow-mobile">
+						<div class="field">
+							<label class="has-text-grey label required" for="musique_imageFile">Bannière de la
+								musique</label>
+							{{form_widget(formMusique.imageFile)}}
+						</div>
+					</div>
+					<div class="column is-narrow-mobile">
+						<div class="field">
+							<label class="has-text-grey label required" for="musique_musicFile">Url de la
+								musique</label>
+							{{form_widget(formMusique.musicFile)}}
+						</div>
+					</div>
+				</div>
+
+				<div class="columns">
+					<div class="column">
+						<div class="field">
+							<label for="musique_category" class="label has-text-grey">Choisir une Catégorie</label>
+							{{form_widget(formMusique.category)}}
+						</div>
+					</div>
+					<div class="column">
+						<div class="field">
+							<label for="musique_album" class="label has-text-grey">Choisir un Album</label>
+							{{form_widget(formMusique.album)}}
+						</div>
+					</div>
+				</div>
+				<div class="control">
+					<button class="button is-primary">Enregistrer les modifications</button>
+				</div>
+				{{ form_end(formMusique) }}
+			</div>
+			<!-- Any other Bulma elements you want -->
+		</div>
+		<button class="modal-close is-large " aria-label="close" data-bulma-modal="close"></button>
+	</div>
+	<div class="column is-12">
+		<div class="box has-background-black-ter omega">
+			<p><span class="title is-4 major_mono" style="color: #e57373;">Toutes mes chansons</span><small
+					style="color: #64c1ff;">&nbsp;&nbsp;·&nbsp;&nbsp;{{musics|length}} {% if musics|length >1  %}
+					sons
+					{% else %}
+					son
+					{% endif %}</small>
+			</p>
+			<hr>
+			{% if musics|length >0 %}
+			<div class="table-container">
+				<table class="table is-hoverable is-fullwidth is-narrow-mobile" style="background-color: #ffa4a2;">
+					<thead>
+						<tr>
+							<th>Titre</th>
+							<th>Featuring</th>
+							<th>Catégorie</th>
+							<th>Album</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for music in musics %}
+						<tr>
+							<td><a class="has-text-weight-bold has-text-black-bis"
+									href="{{ path('music_show', {'id': music.id, 'slug': music.slug}) }}">{{music.title}}</a></td>
+							<td>
+								{% if music.featuring == null %}
+								<span class="tag is-black">Aucun(e)</span>
+								{% else %}
+								feat {{music.featuring}}
+								{% endif %}
+							</td>
+							<td>{{music.category}}</td>
+							<td>
+								{% if music.album == null %}
+								<span class="tag is-black">Aucun</span>
+								{% else %}
+								{{music.album.title}}
+								{% endif %}
+							</td>
+							<td>
+								<div class="buttons">
+									{# <form action="{{ path('music_edit', {'id': music.id}) }}" method="POST"
+                                        style="margin-right: 5px;">
+                                        <input type="hidden" name="_method" value="PUT">
+                                        <input type="hidden" name="_token" value="{{csrf_token('put' ~ music.id)}}">
+                                        <button type="submit" class="button is-small is-primary">Modifier</button>
+                                    </form> #}
+									<a href="{{ path('music_edit', {'id': music.id}) }}" class="button is-small is-primary">Modifier</a>
+									<form action="{{ path('music_delete', {'id': music.id}) }}" method="POST"
+										onsubmit="return confirm('Êtes-vous vraiment sûr(e) ?')">
+										<input type="hidden" name="_method" value="DELETE">
+										<input type="hidden" name="_token" value="{{csrf_token('delete' ~ music.id)}}">
+										<button type="submit" class="button is-danger is-small">Supprimer</button>
+									</form>
+								</div>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% endif %}
+		</div>
+	</div>
+	<div class="column">
+		<div class="box has-background-black-ter omega">
+			<p><span class="title is-4 major_mono" style="color: #ab47bc;">Mes Albums</span><small
+					style="color: #64ff71;">&nbsp;&nbsp;·&nbsp;&nbsp;{{albums|length}} {% if albums|length >1  %}
+					albums
+					{% else %}
+					album
+					{% endif %}</small></p>
+			<hr>
+			<div class="columns is-multiline is-vcentered">
+				{% for album in albums %}
+				<div class="column is-3-desktop is-6-tablet">
+					<div class="box has-background-black-bis omega">
+						<div class="media">
+							<figure class="media-left">
+								<p>
+									<img class="image is-128x128" src="{{ vich_uploader_asset(album, 'imageFile') }}"
+										style="border-radius: 15px;">
+								</p>
+							</figure>
+							<div class="media-content">
+								<div class="content">
+									<p>
+										<a href="" class="has-text-light">
+											<h1 class="is-size-6 is-uppercase"></h1>
+										</a>
+										<small class="subtitle is-5 has-text-grey">{{album.title}}</small><br><small>·
+											{{album.musique|length}} <i class="fas fa-music"></i></small>
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+{% block javascripts %}
+<script src="/bulmaModal.js"></script>
+{% endblock %}

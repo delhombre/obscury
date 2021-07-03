@@ -1,0 +1,286 @@
+{% extends 'base.html.twig' %}
+{% block title %}Profil - {{app.user}} {% endblock %}
+{% block body %}
+{% include "user/_onglet.html.twig" %}
+{# Modal of formMusique #}
+<div class="modal {% if not formMusique.vars.valid %}is-active{% endif %}" id="myModal2">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <!-- Any other Bulma elements you want -->
+        {% if app.user.amateurIsActive or app.user.goldenIsActive or app.user.premiumIsActive %}
+        <div class="box has-background-black-bis omega">
+            <p class="title is-4 major_mono has-text-primary">Nouvelle musique</p>
+            <hr>
+            {{ form_start(formMusique) }}
+            <div class="columns is-mobile">
+                <div class="column">
+                    <div class="field">
+                        <label for="musique_title" class="label has-text-grey">Titre</label>
+                        {{form_widget(formMusique.title, {'attr': {'placeholder': 'Titre de la zik . . .'}})}}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="musique_featuring" class="label has-text-grey">Featuring ?</label>
+                        {{form_widget(formMusique.featuring, {'attr': {'placeholder': 'Nom de l\'artiste en feat . . .'}})}}
+                        <p class="help is-link">Laissez ce champ vide s'il n'ya pas de featuring !</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label class="has-text-grey label required" for="musique_imageFile">Cover de la
+                            musique</label>
+                        {{form_widget(formMusique.imageFile)}}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="has-text-grey label required" for="musique_musicFile">Url de la
+                            musique</label>
+                        {{form_widget(formMusique.musicFile)}}
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="musique_category" class="label has-text-grey">Choisir une Catégorie</label>
+                        {{form_widget(formMusique.category)}}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label for="musique_album" class="label has-text-grey">Choisir un Album</label>
+                        {{form_widget(formMusique.album)}}
+                    </div>
+                </div>
+            </div>
+            {% if albums|length <=0 %}
+            <p class="has-text-info content">Si cette musique fait partie d'un album, Créez-en un . . !</p>
+            {% endif %}
+            <div class="control">
+                <button class="button is-success">Ajouter la musique</button>
+            </div>
+            {{ form_end(formMusique) }}
+        </div>
+        {% else %}
+        <div class="box has-background-black-ter omega">
+            <p class="is-size-3 has-text-white has-text-centered">Ouppps...! Vous n'avez pas d'abonnement actif !</p>
+        </div>
+        {% endif %}
+        <!-- Any other Bulma elements you want -->
+    </div>
+    <button class="modal-close is-large " aria-label="close" data-bulma-modal="close"></button>
+</div>
+{# End modal of formMusique #}
+
+{# Modal of formAlbum #}
+<div class="modal {% if not formAlbum.vars.valid %}is-active{% endif %}" id="myModal3">
+    <div class="modal-background"></div>
+    <div class="modal-content">
+        <!-- Any other Bulma elements you want -->
+        <div class="box has-background-black-bis omega">
+            <p class="title is-4 major_mono" style="color: #f67e7d;">Créer un album</p>
+            <hr>
+            {{ form_start(formAlbum) }}
+            <div class="columns">
+                <div class="column">
+                    <div class="field">
+                        <label for="album_title" class="label has-text-grey">Titre de l'album</label>
+                        {{form_widget(formAlbum.title, {'attr': {'placeholder': 'Titre de votre album. . .'}})}}
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <label class="has-text-grey label required" for="album_imageFile">Cover de l'album</label>
+                        {{form_widget(formAlbum.imageFile)}}
+                    </div>
+                </div>
+            </div>
+            <div class="control">
+                <button class="button is-success">Créér l'album</button>
+            </div>
+            {{ form_end(formAlbum) }}
+        </div>
+        <!-- Any other Bulma elements you want -->
+    </div>
+    <button class="modal-close is-large" aria-label="close" data-bulma-modal="close"></button>
+</div>
+{# End modal of formAlbum #}
+
+<div class="columns is-multiline is-centered">
+    <div class="column is-4">
+        <div class="box has-background-black-bis omega" style="margin-top: 4rem;">
+            <div class="media">
+                <figure class="media-left avatar">
+                    {% if account.profile == null %}
+                    <img class="has-ratio image is-128x128 avatarimg" src="/profile.jpg">
+                    {% else %}
+                    <img class="has-ratio image is-128x128 avatarimg"
+                        src="{{ vich_uploader_asset(account, 'profileFile') }}">
+                    {% endif %}
+                    {{form_start(formProfile)}}
+                    <label for="profile_profileFile">
+                        <a class="button is-small btn-profile" style="border-radius: 50%;">
+                            <span class="icon">
+                                <i class="fa fa-camera"></i>
+                            </span>
+                        </a>
+                    </label>
+                    <div class="is-hidden">
+                        {{form_widget(formProfile.profileFile)}}
+                    </div>
+                    {{form_end(formProfile)}}
+                    {#{% if account.profile != null %}
+                    <a href="{{ path('delete_avatar') }}" class="button is-small btn-delete-profile"
+                        style="border-radius: 50%;">
+                        <span class="icon">
+                            <i class="fa fa-trash"></i>
+                        </span>
+                    </a>
+                    {% endif %}#}
+                </figure>
+                <div class="media-content">
+                    <div class="content">
+                        <span class="is-size-4 has-text-grey is-capitalized">{{ app.user.username }}</span>
+                        <p class="has-text-danger gfont">{{form_errors(formProfile)}}</p>
+                        {{form_errors(formProfile.profileFile)}}
+                    </div>
+                </div>
+            </div>
+            <div class="box has-background-black-bis omega" style="padding: 0.4rem !important;">
+                <span class="has-text-grey-lighter">Vous avez :&nbsp;</span>
+                <span class="is-italic" style="color: #18ffff;">&nbsp;{{app.user.musiques|length}}
+                    {% if app.user.musiques|length>1 %}musiques{% else %}musique
+                    {% endif %},
+                    {{app.user.videos|length}} {% if app.user.videos|length>1 %}vidéos{% else %}vidéo
+                    {% endif %},
+                    {{app.user.albums|length}}
+                    {% if app.user.albums|length>1 %}albums{% else %}album
+                    {% endif %}
+                    ...</span>
+            </div>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="box has-not-margin-top-mobile has-background-black-bis omega">
+            <aside class="menu">
+                <p class="menu-label is-size-6">
+                    <span class="icon is-medium">
+                        <i class="fa fa-share-alt"></i>
+                    </span>
+                    Gestionnaire de publication
+                </p>
+                <ul class="menu-list is-size-6">
+                    <li>
+                        <a id="btn2" class="is-size-5" style="color: #ff8c61;">
+                            <span class="icon is-medium">
+                                <i class="fas fa-headphones-alt"></i>
+                            </span>
+                            Publier un nouveau morceau
+                        </a>
+                    </li>
+                    <li>
+                        <a id="btn3" class="is-size-5" style="color: #f67e7d;">
+                            <span class="icon is-medium">
+                                <i class="fas fa-compact-disc"></i>
+                            </span>
+                            Créer un album
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+    <div class="column is-4">
+        <div class="box has-not-margin-top-mobile has-background-black-bis omega">
+            <aside class="menu">
+                <p class="menu-label is-size-6">
+                    <span class="icon is-medium">
+                        <i class="fa fa-user"></i>
+                    </span>
+                    Gestion du compte
+                </p>
+                <ul class="menu-list is-size-5">
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li>
+                        <a href="/secret/ninja/admin" target="_blank" style="color: #f3ffbd;">
+                            <span class="icon is-medium">
+                                <i class="fas fa-user-secret"></i>
+                            </span>
+                            Administration
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li>
+                        <a class="js-link" style="color: #a9bcd0;">
+                            <span class="icon is-medium">
+                                <i class="fas fa-user-edit"></i>
+                            </span>Changer mon nom
+                        </a>
+                    </li>
+                    <article class="js-disnone is-hidden message is-changeNameColor">
+                        <div class="message-header">
+                            <p>Changer mon nom</p>
+                        </div>
+                        <div class="message-body has-background-grey-lighter">
+                            {{form_start(formUsername)}}
+                            {{form_widget(formUsername.username)}}
+                            {{form_end(formUsername)}}
+                        </div>
+                    </article>
+                    <li>
+                        <a href="{{ path('security_passwordChange') }}" style="color: #5dd39e;">
+                            <span class="icon is-medium">
+                                <i class="fas fa-exchange-alt"></i>
+                            </span>
+                            Modifier mon mot de passe
+                        </a>
+                    </li>
+                    <li>
+                        <a class="has-text-danger" id="btn">
+                            <span class="icon is-medium">
+                                <i class="fas fa-trash"></i>
+                            </span>Supprimer mon compte
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+        <div class="modal" id="myModal">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <section class="modal-card-body has-background-black-ter has-text-centered has-text-white">
+                    <h1 class="title is-4 has-text-danger">
+                        <span class="icon is-large">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+                        </span>
+                        Attention cette action est irréversible !</h1>
+                    <p class="content is-size-6">Votre compte sera supprimé définitivement. Êtes-vous vraiment
+                        certain(e) de poursuivre cette action ?</p>
+                </section>
+                <footer class="modal-card-foot has-background-black-ter">
+                    <div class="buttons">
+                        <form method="POST" action="{{ path('delete_user', {'id': account.user.id}) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{csrf_token('delete' ~ account.user.id)}}">
+                            <button type="submit" class="button is-danger">Supprimer</button>
+                        </form>
+                        <button class="button is-link" data-bulma-modal="close"
+                            style="margin-left: 5px;">Annuler</button>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    {% include "user/_subscription.html.twig" %}
+</div>
+{% endblock %}
+{% block javascripts %}
+<script src="/ChangeNameForm.js"></script>
+<script src="/bulmaModal.js"></script>
+{% endblock %}

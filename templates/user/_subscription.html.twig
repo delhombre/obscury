@@ -1,0 +1,92 @@
+<div class="column">
+
+    <!-- <div class="notification title is-5">Pour votre inscription, un bonus de 2 sons et 1 vidéo
+        vous
+        est offert ! Valable 30 jours.</div> -->
+    <div class="box has-background-black-ter omega">
+        <div class="container">
+            <h1 class="title major_mono" style="color: #aeea00;">Abonnement</h1>
+            <div class="columns">
+                <div class="column">
+                    <div class="box has-background-black-ter omega">
+                        <div class="card">
+                            <header class="card-header has-background-grey">
+                                <p class="card-header-title amateur has-text-black-bis is-uppercase">
+                                    FORFAIT - {{amateur.title|upper}}
+                                </p>
+                            </header>
+                            <div class="card-content has-text-centered amateur-body">
+                                <div class="content">
+                                    <div class="block">
+                                        <h1 class="title has-text-black-bis">{{amateur.formattedPrice}} FCFA</h1>
+                                    </div>
+                                    <div class="block subtitle has-text-black-bis">
+                                        <p>{{amateur.hasMusic}} sons</p>
+                                        <p>{{amateur.hasCover}} covers</p>
+                                        <p>{{amateur.hasVideo}} vidéo</p>
+                                        <p>Valable 15 jours.</p>
+                                    </div>
+                                </div>
+                                <a href="{{path('cart_add', {'id': amateur.id})}}"
+                                    class="button is-success is-medium is-fullwidth">S'abonner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box has-background-black-ter omega">
+                        <div class="card">
+                            <header class="card-header has-background-grey">
+                                <p class="card-header-title golden has-text-black-bis is-uppercase">
+                                    FORFAIT - {{golden.title|upper}}
+                                </p>
+                            </header>
+                            <div class="card-content has-text-centered golden-body">
+                                <div class="content">
+                                    <div class="block">
+                                        <h1 class="title has-text-black-bis">{{golden.formattedPrice}} FCFA</h1>
+                                    </div>
+                                    <div class="block subtitle has-text-black-bis">
+                                        <p>{{golden.hasMusic}} sons</p>
+                                        <p>{{golden.hasCover}} covers</p>
+                                        <p>{{golden.hasVideo}} vidéo</p>
+                                        <p>Valable 30 jours.</p>
+                                    </div>
+                                </div>
+                                <a href="{{path('cart_add', {'id': golden.id})}}"
+                                    class="button is-success is-medium is-fullwidth">S'abonner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="box has-background-black-ter omega">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title premium has-text-black-bis is-uppercase">
+                                    FORFAIT - {{premium.title}}
+                                </p>
+                            </header>
+                            <div class="card-content has-text-centered premium-body">
+                                <div class="content">
+                                    <div class="block">
+                                        <h1 class="title has-text-black-bis">{{premium.formattedPrice}} FCFA</h1>
+                                    </div>
+                                    <div class="block subtitle has-text-black-bis">
+                                        <p>{{premium.hasMusic}} sons</p>
+                                        <p>{{premium.hasCover}} covers</p>
+                                        <p>{{premium.hasVideo}} vidéos</p>
+                                        <p>Valable 45 jours.</p>
+                                    </div>
+                                </div>
+                                <a href="{{path('cart_add', {'id': premium.id})}}"
+                                    class="button is-success is-medium is-fullwidth">S'abonner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

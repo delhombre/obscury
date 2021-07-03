@@ -1,0 +1,17 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <h1 class="title has-text-centered has-text-success major_mono">Renouvellement du mot de passe</h1>
+    <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="box has-background-black-bis omega">
+                {{form_start(form)}}
+                {{form_row(form.password, {'label':'Nouveau mot de passe' ,'attr':{'placeholder': 'Entrez votre nouveau mot de passe !', 'class': 'has-text-grey'}})}}
+                {{form_row(form.confirm_password, {'label':'Confirmation du mot de passe', 'attr':{'placeholder': 'Répétez votre mot de passe !', 'class': 'has-text-grey'}})}}
+                <button class="button is-primary" type="submit">Envoyer</button>
+                {{form_end(form)}}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

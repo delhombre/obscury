@@ -1,0 +1,85 @@
+{% extends "base.html.twig" %}
+{% block title %}Obscury - Connexion{% endblock %}
+{% block body %}
+<h1 class="title has-text-centered has-text-primary major_mono">Connexion !</h1>
+<div class="columns">
+	<div class="column is-half is-offset-one-quarter">
+		<div class="box has-background-black-bis omega">
+			{% for message in app.flashes('sendMail_success') %}
+			<div class="container">
+				<div class="container is-fluid">
+					<article class="message is-success">
+						<div class="message-body">
+							{{message}}
+						</div>
+					</article>
+				</div>
+			</div>
+			{% endfor %}
+			{% for message in app.flashes('sendMailResetPassword_success') %}
+			<div class="container">
+				<div class="container is-fluid">
+					<article class="message is-success">
+						<div class="message-body">
+							{{message}}
+						</div>
+					</article>
+				</div>
+			</div>
+			{% endfor %}
+			{% for message in app.flashes('resetPassword_success') %}
+			<div class="container">
+				<div class="container is-fluid">
+					<article class="message is-success">
+						<div class="message-body">
+							{{message}}
+						</div>
+					</article>
+				</div>
+			</div>
+			{% endfor %}
+			{% if error %}
+			<article class="message is-danger">
+				<div class="message-body">
+					{{ error.messageKey|trans(error.messageData, 'security') }}
+				</div>
+			</article>
+			{% endif %}
+
+			<form action="{{ path('security_login') }}" method="POST" class="content">
+				<div class="field">
+					<label for="username" class="label has-text-grey">Email</label>
+					<div class="control has-icons-left has-icons-right">
+						<input type="text" id="username" placeholder="Adresse email . . ." required name="_username"
+							class="input" value="{{ last_username }}">
+						<span class="icon is-small is-left">
+							<i class="fas fa-envelope"></i>
+						</span>
+					</div>
+				</div>
+				<div class="field">
+					<label for="password" class="label has-text-grey">Mot de passe</label>
+					<div class="control has-icons-left has-icons-right">
+						<input type="password" id="password" placeholder="Mot de passe . . ." required name="_password"
+							class="input">
+						<span class="icon is-small is-left">
+							<i class="fas fa-lock"></i>
+						</span>
+					</div>
+				</div>
+				<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+				<input type="hidden" name="_target_path" value="{{path('user_account')}}" />
+				<div class="control">
+					<button type="submit" class="button is-success is-fullwidth is-size-5">Me connecter !</button>
+				</div>
+			</form>
+			<p class="has-text-centered has-text-white">
+				<a href="{{ path('security_registration') }}" class="has-text-link">S'inscrire</a>
+				&nbsp;·&nbsp;
+				<a href="{{path('security_resetPassword')}}" class="has-text-link">Mot de passe oublié ?</a>
+			</p>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

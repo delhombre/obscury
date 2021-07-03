@@ -1,0 +1,326 @@
+body {
+  overflow-x: hidden;
+}
+
+.menu-list a:hover {
+  background-color: transparent !important;
+}
+
+.message.is-changeNameColor {
+  background-color: #373f51;
+}
+
+.message.is-changeNameColor .message-header {
+  background-color: #304666;
+  color: #fff;
+}
+
+.message.is-changeNameColor .message-body {
+  border-color: #373f51;
+  color: #373f51;
+}
+
+.audioButton {
+  cursor: pointer;
+  color: rgb(92, 1, 48);
+}
+
+.audioButton:hover {
+  transform: scale(1.1);
+  transition: transform .5s;
+}
+
+.social {
+  border-radius: 50%;
+  background-color: #000000;
+  box-shadow: 1px 1px 10px rgb(55, 74, 114), 0px 0.5px 5px rgb(102, 56, 56);
+}
+
+.hearticon {
+  color: rgb(252, 3, 3);
+}
+
+.commenticon {
+  color: rgb(243, 13, 52);
+}
+
+.shareicon {
+  color: #d9ff00;
+}
+
+.downloadicon {
+  color: #28e247;
+}
+
+.amateur {
+  background-color: #0096a5;
+}
+
+.amateur-body {
+  background-color: #56c7d6;
+}
+
+.golden {
+  background-color: #ffc400;
+}
+
+.golden-body {
+  background-color: #fff64f;
+}
+
+.premium {
+  background-color: #9b27af;
+}
+
+.premium-body {
+  background-color: #cf5ce2;
+}
+
+.ml1 {
+  margin-left: 2rem;
+}
+
+.ml2 {
+  margin-left: 4rem;
+}
+
+/*Index User Account*/
+@media screen and (min-width: 769px) {
+  .has-not-margin-top-mobile {
+    margin-top: 4rem;
+  }
+}
+
+.avatar {
+  margin-top: -70px;
+}
+
+.avatarimg {
+  vertical-align: middle;
+  border-radius: 50%;
+  object-fit: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding: 2px;
+  background-color: #23d160;
+}
+
+.btn-profile {
+  margin-left: 93px;
+  margin-top: -30px;
+  width: 2px;
+  height: 2px;
+  padding: 10px;
+  background: rgb(156, 156, 156);
+  color: whitesmoke;
+  -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
+}
+
+.btn-delete-profile {
+  margin-left: 13px;
+  margin-top: -54px;
+  border-radius: 50%;
+  width: 2px;
+  height: 2px;
+  padding: 10px;
+  background: red;
+  color: white;
+  /* -webkit-box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1);
+  box-shadow: 0 2px 3px rgba(10, 10, 10, .1), 0 0 0 1px rgba(10, 10, 10, .1); */
+}
+
+/**/
+/*ArtistPage**/
+.has-box-shadow {
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22) !important;
+  -moz-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 30px !important;
+}
+
+/***/
+/*FOOTER*/
+
+/**/
+.mhr {
+  border-top: 2px solid rgb(44, 44, 44);
+  border-bottom: 2px solid rgb(44, 44, 44);
+  display: block;
+  margin: 1rem 0;
+  padding: 5px;
+}
+
+.cFplaceholder::placeholder {
+  color: grey;
+  opacity: 1;
+}
+
+/**************************/
+.manavbar {
+  font-family: 'Open Sans', BlinkMacSystemFont, -apple-system, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  font-weight: bold;
+}
+
+.gfont {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.opac {
+  opacity: 0.5;
+}
+
+.ls {
+  letter-spacing: 1px;
+}
+
+/*************.a, .b, .c, .d, .e, .f****************/
+
+.a,
+.b,
+.c,
+.d,
+.e,
+.f {
+  text-decoration: none;
+  position: relative;
+  z-index: 0;
+  overflow: hidden !important;
+  letter-spacing: 1.2px;
+  /* transition: transform 0.5s !important; */
+  font-family: 'Open Sans';
+  text-decoration: none !important;
+}
+
+.a:hover,
+.b:hover,
+.c:hover,
+.d:hover,
+.e:hover,
+.f:hover {
+  color: whitesmoke !important;
+  border-radius: 5px 5px 5px 5px !important;
+}
+
+.a::before,
+.a::after,
+.b::before,
+.b::after,
+.c::before,
+.c::after,
+.d::before,
+.d::after,
+.e::before,
+.e::after,
+.f::before,
+.f::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  transition: right 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+  border-radius: 5px 5px 5px 5px !important;
+}
+
+.a::before,
+.b::before,
+.c::before,
+.d::before,
+.e::before,
+.f::before {
+  z-index: -1;
+  right: 0;
+}
+
+.a:hover::before,
+.b:hover::before,
+.c:hover::before,
+.d:hover::before,
+.e:hover::before,
+.f:hover::before {
+  right: -100%;
+}
+
+.a:hover::after,
+.b:hover::after,
+.c:hover::after,
+.d:hover::after,
+.e:hover::after,
+.f:hover::after {
+  right: 0;
+}
+
+/*******************A********************/
+.a {
+  color: #4285f4 !important;
+}
+
+.a::after {
+  background-color: #4285f4;
+  z-index: -1;
+  right: 100%;
+}
+
+/* .a:active, .c:active, .e:active {
+   transform: translateY(-2px);
+ }
+ .b:active, .d:active, .f:active{
+   transform: translateY(2px);
+ }*/
+
+/****************B******************/
+.b {
+  color: rgb(230, 21, 56) !important;
+}
+
+.b::after {
+  background-color: rgb(230, 21, 56);
+  z-index: -1;
+  right: 100%;
+}
+
+
+/****************C*****************/
+.c {
+  color: limegreen !important;
+}
+
+.c::after {
+  background-color: limegreen;
+  z-index: -1;
+  right: 100%;
+}
+
+/****************D********** rgb(4, 236, 236)*******/
+.d {
+  color: rgb(6, 219, 219) !important;
+}
+
+.d::after {
+  background-color: rgb(6, 219, 219);
+  z-index: -1;
+  right: 100%;
+}
+
+/****************E*****************/
+.e {
+  color: #ffc001 !important;
+}
+
+.e::after {
+  background-color: #ffc001;
+  z-index: -1;
+  right: 100%;
+}
+
+/****************F*****************/
+.f {
+  color: rgb(238, 130, 238) !important;
+}
+
+.f::after {
+  background-color: rgb(238, 130, 238);
+  z-index: -1;
+  right: 100%;
+}

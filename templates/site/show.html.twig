@@ -1,0 +1,191 @@
+{% extends "base.html.twig" %}
+{% block head %}
+<meta name="description" content="OBSCURY - {{musique.user.username}}">
+<meta property="og:title" content="{{musique.user.username}} {% if feat %} ft {{musique.featuring}} {% endif %} - {{musique.title}}">
+<meta property="og:description" content="Single {{musique.title|upper}} de {{musique.user.username|upper}} {% if feat %} en feat avec {{musique.featuring}} {% endif %} sur OBSCURY. Date de mise en ligne: {{musique.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y')}}">
+<meta name="keywords" content="{{musique.user.username}}, {{musique.title}}, streaming, telechargements, musiques, hits, videos, chansons, partage">
+<meta property="og:url" content="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}">
+<meta property="og:site_name" content="www.obscury.com">
+<meta property="og:image" content="{{ vich_uploader_asset(musique, 'imageFile') }}">
+<link rel='image_src' href="{{ vich_uploader_asset(musique, 'imageFile') }}" />
+<meta property="og:image:secure_url" content="{{ vich_uploader_asset(musique, 'imageFile') }}"
+
+{#<meta property="og:image:width" content="1000" />#}
+{#<meta property="og:image:height" content="1000" />#}
+
+<meta property="og:image:alt" content="{{musique.user.username}} - {{musique.title}}" />
+<meta property='og:audio' content="{{ vich_uploader_asset(musique, 'musicFile') }}" />
+<meta property='og:audio:type' content='audio/mpeg' />
+<meta property='og:audio:title' content="{{musique.user.username}} - {{ musique.title }}" />
+{% endblock %}
+
+{% block title %}{{musique.user.username}} - {{musique.title}}{% endblock %}
+{% block stylesheets %}
+<link href="https://fonts.googleapis.com/css?family=Dosis&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Dosis|Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+<link href="/audioPlayer.css" rel="stylesheet">
+{% endblock %}
+{% block body %}
+
+<div class="columns is-centered">
+	<div class="column is-full-mobile is-three-fifths">
+		<div class="box has-background-black-ter omega">
+			<div class="modal" id="myModal">
+				<div class="modal-background"></div>
+				<div class="modal-content">
+					<!-- Any other Bulma elements you want -->
+					<div class="has-text-centered social-btn">
+						<p class="subtitle has-text-info content gfont">Partager</p>
+						<a href="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}"
+							class="icon is-large share_whatsapp" data-action="share/whatsapp/share" id="share_btn">
+							<i class="fab fa-whatsapp fa-lg"></i>
+						</a>
+						<a href="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}"
+							class="icon is-large share_facebook" id="share_btn">
+							<i class="fab fa-facebook-f fa-lg"></i>
+						</a>
+						<a href="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}"
+							class="icon is-large share_twitter" id="share_btn">
+							<i class="fab fa-twitter fa-lg"></i>
+						</a>
+					</div>
+				</div>
+				<button class="modal-close is-large" aria-label="close" data-bulma-modal="close"></button>
+			</div>
+			<div class="columns is-mobile is-vcentered is-centered">
+				<div class="column">
+					<figure class="image is-128x128 content">
+						<img class="has-ratio" src="{{ vich_uploader_asset(musique, 'imageFile') }}"
+							alt="{{musique.title}}" style="border-radius: 10px;">
+					</figure>
+				</div>
+				<div class="column has-text-centered">
+					<h1 class="title has-text-white has-text-weight-light">
+						{{musique.title}}
+					</h1>
+					<h6 class="subtitle is-size-7 has-text-grey">
+						·&nbsp;{{musique.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y')}}</h6>
+				</div>
+			</div>
+			<h2 class="subtitle has-text-white has-text-centered has-text-weight-light">
+				{{musique.user.username}}{% if feat %} ft
+				{{musique.featuring}}
+				{% endif %}
+			</h2>
+			<div class="css-btn has-text-centered">
+				<div class="is-inline-block">
+					<p>
+						<a href="{{ path('music_like', {'id': musique.id}) }}" class="icon is-large css-heart js-heart">
+							{% if app.user and musique.isLikedByUser(app.user) %}
+							<i class="fa fa-heart fa-lg tomato"></i>
+							{% else %}
+							<i class="fa fa-heart fa-lg"></i>
+							{% endif %}
+						</a>
+					</p>
+					<p class="heading osCondensed {% if app.user and musique.isLikedByUser(app.user) %} tomato{% else %} has-text-white{% endif %}"
+						id="js-hearts">{{ musique.likes|length }}</p>
+				</div>
+				<div class="is-inline-block">
+					<p>
+						<a href="{{ path('music_download', {'id': musique.id}) }}"
+							class="icon is-large css-download js-download">
+							<i class="fas fa-cloud-download-alt fa-lg"></i>
+						</a>
+					</p>
+					<p class="heading osCondensed" id="js-downloads" style="color: violet;">{{musique.downloads|length}}
+					</p>
+				</div>
+				<div class="is-inline-block">
+					<p>
+						<a class="icon is-large css-share" id="btn">
+							<i class="fa fa-share-alt fa-lg"></i>
+						</a>
+					</p>
+					<p class="heading osCondensed" id="js-share" style="color: pink;">{# 0 #} &nbsp;</p>
+				</div>
+			</div>
+			<div class="has-background-black-bis" style="border-radius: 10px;">
+				<div class="middle">
+					<div class="slider-container">
+						<span class="bar">
+							<span class="fill"></span>
+						</span>
+						<input class="slider" type="range" id="slider" max="" value="0" oninput="setPos(this.value)">
+					</div>
+					<div class="current-time">
+						<span class="has-text-grey-lighter">0:00</span>
+					</div>
+					<div class="total-time">
+						<span class="has-text-grey-lighter">0:00</span>
+					</div>
+				</div>
+				<div class="control-buttons has-text-centered">
+					<span class="icon has-text-grey css-skip">
+						<i class="fa fa-backward fa-lg" onclick="skip('back')"></i>
+					</span>
+					<span class="icon is-large css-play">
+						<i class="fa fa-play-circle fa-3x" id="play" onclick="playPause(this)"></i>
+					</span>
+					<span class="icon has-text-grey css-skip">
+						<i class="fa fa-forward fa-lg" onclick="skip('fwd')"></i>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="column">
+		<div class="box has-background-black-ter omega">
+			<p class="subtitle is-4">
+				<span class="major_mono has-text-warning">playlist</span>
+				|
+				<span class="gfont has-text-grey-lighter">
+					{{musique.user.username}}</span>
+				<span class="has-text-grey is-size-6">
+					·
+					{{musiques|length}}
+					{% if musiques|length >1 %}
+					sons
+					{% else %}
+					son
+					{% endif %}
+				</span>
+			</p>
+			<hr class="has-background-grey">
+
+			{% for music in musiques %}
+			<p class="subtitle">
+				<a class="{% if path('music_show', {'id': music.id, 'slug': musique.slug}) == app.request.requestUri %}has-text-danger{% else %}has-text-grey{% endif %} has-text-weight-light"
+					href="{{ path('music_show', {'id': music.id, 'slug': musique.slug}) }}">
+					<span class="osCondensed">{{loop.index}}.
+					</span>
+					{{music.title}}
+					{% if music.featuring != null %}feat
+					{{music.featuring}}
+					{% endif %}
+				</a>
+			</p>
+			{% endfor %}
+		</div>
+	</div>
+
+</div>
+<audio class="is-hidden" src="{{ vich_uploader_asset(musique, 'musicFile') }}"></audio>
+
+{% endblock %}
+{% block javascripts %}
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="/like.js"></script>
+<script src="/social.js"></script>
+<script src="/bulmaModal.js"></script>
+
+<script>
+	var songSrc = "{{ vich_uploader_asset(musique, 'musicFile') }}";
+	var path = "path('music_show', {'id': music.id, 'slug': musique.slug})";
+
+</script>
+
+<script src="/audioPlayer.js"></script>
+{% endblock %}

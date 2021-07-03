@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: obscury.com
+Token: 10cc94de203c253d2d52b61af41be022c52900803c6eaf80ce7b923479cb7d51

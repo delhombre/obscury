@@ -1,0 +1,33 @@
+vich_uploader:
+    db_driver: orm
+
+    mappings:
+        musique_images:
+            uri_prefix: /uploads/musics/images
+            upload_destination: "%kernel.project_dir%/public/uploads/musics/images"
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            #    inject_on_load: false
+            delete_on_update: false
+            delete_on_remove: true
+
+        musique_musics:
+            uri_prefix: "%app.path.musique_musics%"
+            upload_destination: "%kernel.project_dir%/public%app.path.musique_musics%"
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            #        inject_on_load: false
+            delete_on_update: false
+            delete_on_remove: true
+
+        album_images:
+            uri_prefix: "%app.path.album_images%"
+            upload_destination: "%kernel.project_dir%/public%app.path.album_images%"
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_update: true
+            delete_on_remove: true
+
+        user_profiles:
+            uri_prefix: "%app.path.user_profiles%"
+            upload_destination: "%kernel.project_dir%/public%app.path.user_profiles%"
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            delete_on_update: true
+            delete_on_remove: true

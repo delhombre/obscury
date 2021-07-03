@@ -1,0 +1,85 @@
+<nav class="navbar is-dark manavbar is-fixed-top" role="navigation" aria-label="main navigation">
+	<div class="navbar-brand">
+		<a class="navbar-item is-transparent" href="{{path('home')}}">
+			<img src="/Logos/logo2.png" style="border-radius: 0px !important;">
+			<span class="title has-text-black-bis is-size-4 has-text-weight-bold">OBSCURY</span>
+			{# <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28"> #}
+		</a>
+
+		<a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+			<span aria-hidden="true"></span>
+		</a>
+	</div>
+
+	<div id="navbarBasicExample" class="navbar-menu has-background-dark">
+		{# <div class="navbar-end">
+			<form action="" class="navbar-item ">
+				<div class="field has-addons">
+					<div class="control">
+						<input class="input ls" type="text" placeholder="Rechercher...">
+					</div>
+					<div class="control has-icons-right">
+						<a class="button is-success">
+							<span>
+								<i class="fa fa-search"></i>
+							</span>
+						</a>
+					</div>
+				</div>
+			</form>
+		</div> #}
+
+		<div class="navbar-end ls">
+			<a class="navbar-item a" href="{{ path('home') }}">
+				<span class="icon is-large is-hidden-desktop is-hidden-widescreen">
+					<i class="fas fa-home" aria-hidden="true"></i>
+				</span>
+				Accueil
+			</a>
+			<a class="navbar-item b" href="{{ path('music') }}">
+				<span class="icon is-large is-hidden-desktop is-hidden-widescreen">
+					<i class="fas fa-music" aria-hidden="true"></i>
+				</span>
+				Musiques
+			</a>
+			<a class="navbar-item c" href="{{ path('video') }}">
+				<span class="icon is-large is-hidden-desktop is-hidden-widescreen">
+					<i class="fas fa-video" aria-hidden="true"></i>
+				</span>
+				Vidéos
+			</a>
+			<a class="navbar-item d" href="{{ path('artists') }}">
+				<span class="icon is-large is-hidden-desktop is-hidden-widescreen">
+					<i class="fas fa-users" aria-hidden="true"></i>
+				</span>
+				Artistes
+			</a>
+			{% if app.user %}
+			<a class="navbar-item e" href="{{ path('user_account') }}">
+				<span class="icon is-large is-hidden-desktop is-hidden-widescreen">
+					<i class="fas fa-user" aria-hidden="true"></i>
+				</span>
+				Compte
+			</a>
+			{% endif %}
+			<a class="navbar-item f" href="{{ path('contact') }}">
+				<span class="icon is-large is-hidden-desktop is-hidden-widescreen">
+					<i class="fas fa-address-book" aria-hidden="true"></i>
+				</span>
+				Contact
+			</a>
+			<div class="navbar-item">
+				<div class="buttons">
+					{% if not app.user %}
+					<a href="{{ path('security_login') }}" class="button is-info is-outlined is-fullwidth">Connexion</a>
+					{% else %}
+					<a href="{{ path('security_logout') }}"
+						class="button is-danger is-outlined is-fullwidth">Déconnexion</a>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+</nav>

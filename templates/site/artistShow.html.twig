@@ -1,0 +1,25 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+<section class="hero">
+    <div class="hero-body">
+        <div class="container">
+            <div class="columns is-vcentered">
+                <div class="column is-half is-offset-one-quarter">
+                    <figure class="image is-128x128">
+                        {% if user.account.profile == null %}
+                        <img class="is-rounded" src="\profile.jpg" alt="{{user.username}}">
+                        {% else %}
+                        <img class="is-rounded" src="{{ vich_uploader_asset(user.account, 'profileFile') }}"
+                            alt="{{user.username}}">
+                        {% endif %}
+                    </figure>
+                </div>
+                <h1 class="subtitle has-text-centered">
+                    {{user.username}}
+                </h1>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

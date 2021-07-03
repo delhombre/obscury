@@ -1,0 +1,262 @@
+easy_admin:
+    site_name: '<img src="/Logos/logo2.png" style="border-radius: 0px !important; max-height: 1.75rem;"> Obscury'
+    design:
+        menu:
+            - {
+                  label: "Accueil",
+                  route: "home",
+                  icon: "home",
+                  target: "_blank",
+              }
+            - {
+                  label: "Compte Admin",
+                  route: "user_account",
+                  icon: "user",
+                  target: "_blank",
+              }
+            - { entity: "Category", label: "Catégories", icon: "tag" }
+            - { entity: "Album", label: "Albums", icon: "dot-circle" }
+            - { entity: "Musique", label: "Musiques", icon: "music" }
+            - { entity: "Video", label: "Vidéos", icon: "video" }
+            - { entity: "Comment", label: "Commentaires", icon: "comment" }
+            - { entity: "PostLike", label: "Likes", icon: "heart" }
+            - {
+                  entity: "PostDownload",
+                  label: "Downloads",
+                  icon: "cloud-download-alt",
+              }
+            - { entity: "User", label: "Utilisateurs", icon: "users" }
+            - { entity: "Account", label: "Compte profil", icon: "camera" }
+            - { entity: "Subscription", label: "Abonnements", icon: "bookmark" }
+    entities:
+        # Category Entity
+        Category:
+            class: App\Entity\Category
+            list:
+                title: "Catégories récentes"
+                actions:
+                    - {
+                          name: "edit",
+                          label: "",
+                          icon: "edit",
+                          css_class: "btn btn-primary",
+                      }
+                    - {
+                          name: "delete",
+                          label: "",
+                          icon: "trash",
+                          css_class: "btn btn-danger",
+                      }
+                    - { name: "search", label: "Rechercher . . ." }
+                    - {
+                          name: "new",
+                          label: "Nouvelle catégorie",
+                          icon: "pencil",
+                      }
+                fields:
+                    - id
+                    - { property: "title", label: "Nom de la catégorie" }
+                    - musiques
+            new:
+                title: "Ajouter une nouvelle Catégorie"
+                actions:
+                    - { name: "list", label: "Liste des catégories" }
+            show:
+                title: "%%entity_label%% (#%%entity_id%%)"
+                fields:
+                    - id
+                    - { property: "title", label: "Nom de la catégorie" }
+                    - musiques
+                actions:
+                    - { name: "list", label: "Liste des catégories" }
+                    - { name: "edit", label: "Éditer" }
+                    - { name: "delete", label: "Supprimer" }
+            form:
+                fields:
+                    - { property: "title", label: "Nom de la catégorie" }
+        # Album
+        Album:
+            class: App\Entity\Album
+            list:
+                fields:
+                    - id
+                    - { property: "title", label: "Titre" }
+                    - {
+                          property: "image",
+                          label: "Bannière de l'album",
+                          type: "image",
+                          base_path: "%app.path.album_images%",
+                      }
+                    - musique
+                    - user
+        # Musique Entity
+        Musique:
+            class: App\Entity\Musique
+            list:
+                title: "Musiques récentes"
+                actions:
+                    - { name: "search", label: "Rechercher . . ." }
+                    - { name: "new", label: "Ajouter une musique" }
+                fields:
+                    - id
+                    - { property: "title", label: "Titre" }
+                    - featuring
+                    - { property: "user", label: "Utilisateur" }
+                    - {
+                          property: "image",
+                          label: "Bannière de la musique",
+                          type: "image",
+                          base_path: "%app.path.musique_images%",
+                      }
+                    - {
+                          property: "music",
+                          label: "Url de la musique",
+                          type: "file",
+                          base_path: "%app.path.musique_musics%",
+                      }
+                    - { property: "createdAt", label: "Date de création" }
+                    - { property: "likes", label: "Nombre de likes" }
+                    - { property: "comments", label: "Nombre de commentaires" }
+                    - { property: "updatedAt", label: "Date de modification" }
+                    - { property: "category", label: "Catégorie" }
+                    - album
+        # Video Entity
+        Video:
+            class: App\Entity\Video
+        # User Entity
+        User:
+            class: App\Entity\User
+            list:
+                # title: "Utilisateurs récents"
+                actions:
+                    - {
+                          name: "edit",
+                          label: "",
+                          icon: "edit",
+                          css_class: "btn btn-primary",
+                      }
+                    - {
+                          name: "delete",
+                          label: "",
+                          icon: "trash",
+                          css_class: "btn btn-danger",
+                      }
+                    - { name: "search", label: "Rechercher . . ." }
+                    # - {name: 'new', label: ''}
+                fields:
+                    - id
+                    - { property: "username", label: "Nom d'utilisateur" }
+                    - { property: "email", label: "Adresse email" }
+                    - { property: "createdAt", label: "Date d'inscription" }
+                    - {
+                          property: "confirmationToken",
+                          label: "Token d'inscription",
+                      }
+                    - roles
+                    - { property: "isActive", label: "Actif" }
+                    - {
+                          property: "PasswordRequestedAt",
+                          label: "Date de modification du MdP",
+                      }
+                    - { property: "token", label: "Token de MdP" }
+                    - { property: "comments", label: "Nombre de commentaires" }
+                    - { property: "likes", label: "Nombre de likes" }
+                    - { property: "musiques", label: "Nombre de musiques" }
+                    - { property: "amateurIsActive", label: "Abn Amateur" }
+                    - { property: "goldenIsActive", label: "Abn Golden" }
+                    - { property: "premiumIsActive", label: "Abn Premium" }
+                    - {
+                          property: "subscriptionBeginAt",
+                          label: "Date d'activation de l'abn",
+                      }
+                    - {
+                          property: "subscriptionEndAt",
+                          label: "Date d'expiration de l'abn",
+                      }
+            # show:
+            #   title: '%%entity_label%% (#%%entity_id%%)'
+            #   fields:
+            #     - id
+            #     - {property: 'username', label: "Nom d'utilisateur"}
+            #     - {property: 'email', label: 'Adresse email'}
+            #     - {property: 'password', label: 'Mot de passe'}
+            #     - {property: 'roles', label: 'Roles', type: 'text'}
+            #     - {property: 'createdAt', label: "Date d'inscription"}
+            #     - {property: 'comments', label: 'Commentaires'}
+            #     - Likes
+            #     - musiques
+            #   actions:
+            #     - {name: 'list', label: 'Liste des catégories'}
+            #     - {name: 'edit', label: 'Éditer'}
+            #     - {name: 'delete', label: 'Supprimer'}
+        # Account Entity
+        Account:
+            class: App\Entity\Account
+        # Comment Entity
+        Comment:
+            class: App\Entity\Comment
+            list:
+                title: "Commentaires récents"
+                actions:
+                    - { name: "edit", label: "" }
+                    - {
+                          name: "delete",
+                          label: "",
+                          icon: "trash",
+                          css_class: "btn btn-danger",
+                      }
+                    - { name: "search", label: "Rechercher . . ." }
+                fields:
+                    - id
+                    - musique
+                    - { property: "user", label: "Utilisateur" }
+                    - { property: "content", label: "Contenu" }
+                    - { property: "createdAt", label: "Date de création" }
+        # PostLike Entity
+        PostLike:
+            class: App\Entity\PostLike
+            list:
+                #title: "Likes récents"
+                actions:
+                    - { name: "edit", label: "" }
+                    - {
+                          name: "delete",
+                          label: "",
+                          icon: "trash",
+                          css_class: "btn btn-danger",
+                      }
+                    - { name: "search", label: "Rechercher . . ." }
+                fields:
+                    - id
+                    - musique
+                    - { property: "user", label: "Utilisateur" }
+                    # - {property: 'createdAt', label: 'Date de création'}
+        # PostDownload Entity
+        PostDownload:
+            class: App\Entity\PostDownload
+        # Subscription Entity
+        Subscription:
+            class: App\Entity\Subscription
+            list:
+                title: "Abonnements"
+                actions:
+                    - {
+                          name: "edit",
+                          label: "",
+                          icon: "edit",
+                          css_class: "btn btn-primary",
+                      }
+                    - { name: "delete", label: "" }
+                    - { name: "search", label: "Rechercher . . ." }
+                    - {
+                          name: "new",
+                          label: "Nouvel Abonnement",
+                          icon: "pencil",
+                      }
+                fields:
+                    - id
+                    - { property: "title", label: "Titre" }
+                    - { property: "price", label: "Prix" }
+                    - { property: "hasMusic", label: "Nombre de Musiques" }
+                    - { property: "hasVideo", label: "Nombre de Vidéos" }
+                    - { property: "hasCover", label: "Nombre de covers" }

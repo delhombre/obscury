@@ -1,0 +1,160 @@
+{% extends "base.html.twig" %}
+{% block title %}Accueil - Votre plateforme de streaming et de téléchargement de hits{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
+<style>
+	.carousel * {
+		outline: none !important;
+	}
+
+	.slider-navigation-previous {
+		color: #0a0a0a !important;
+		background-color: #dbdbdb !important;
+	}
+
+	.slider-navigation-next {
+		color: #0a0a0a !important;
+		background-color: #dbdbdb !important;
+	}
+
+</style>
+{% endblock %}
+{% block body %}
+<section class="hero is-black">
+	<div class="hero-body">
+		<div class="container">
+			<h1 class="title is-size-2 is-size-3-mobile">
+				Toute la musique que vous aimez.
+			</h1>
+			<h2 class="has-text-grey-lighter is-size-4 is-size-6-mobile has-text-centered-mobile">
+				Restez branchés à vos artistes préférés en découvrant leurs derniers albums...
+			</h2>
+			<section class="section">
+				<div class="container">
+					<!-- Start Carousel -->
+					<div id="carousel-demo" class="carousel">
+						{% for album in albums %}
+						{% if album.musique|length >=1 %}
+						{% cache 'album' ~ album.id album.updatedAt.timestamp %}
+
+						<div class="item-{{loop.index}}">
+							<!-- Slide Content -->
+							<div class="box has-background-black">
+								<div class="card-image">
+									<a href="{{path('album_show', {'id':album.id})}}">
+										<figure class="image is-5by4">
+											<img class="has-ratio" src="{{ vich_uploader_asset(album, 'imageFile') }}"
+												alt="{{album.title}}">
+										</figure>
+									</a>
+									<h1 class="title has-text-centered is-size-4 gfont">{{album.title}}</h1>
+									<h2 class="subtitle has-text-centered is-size-6 gfont" style="opacity:.4;">
+										{{album.user.username}}
+									</h2>
+								</div>
+							</div>
+						</div>
+
+						{% endcache %}
+						{% endif %}
+						{% endfor %}
+					</div>
+					<!-- End Carousel -->
+				</div>
+			</section>
+
+			<div class="has-text-right">
+				<a href="{{path('albums')}}" class="has-text-white" style="text-decoration:none;">
+					<span class="icon is-inline-block">
+						<i class="fa fa-angle-right"></i>
+					</span>
+					<span class="has-text-weight-bold">Découvrez plus d'albums</span>
+
+				</a>
+			</div>
+
+		</div>
+	</div>
+</section>
+<div class="section is-paddingless">
+	<div class="section is-paddingless is-marginless">
+		<div class="columns">
+			<div class="column is-full has-text-centered">
+				<div class="transparent omega">
+					<div class="columns has-text-centered is-multiline is-centered">
+						<div class="column is-10 has-text-centered">
+							<div class="section is-paddingless">
+								<div class="notification transparent">
+									<p class="title has-text-left major_mono" style="color: red !important;">
+										<span class="icon is-inline-block">
+											<i class="fa fa-fire"></i>
+										</span> hits
+										<span class="has-text-white has-text-weight-light">du moment</span>
+									</p>
+
+									<div class="columns has-text-centered is-desktop is-multiline">
+
+										{% for musique in musiques %}
+										{% cache 'musique' ~ musique.id musique.updatedAt.timestamp %}
+										<div class="column is-4">
+											<div class="box has-background-black-ter omega">
+												<div class="card-image material_shadow_five">
+													<figure class="image is-square">
+														<img src="{{ vich_uploader_asset(musique, 'imageFile') }}"
+															alt="{{ musique.title }}">
+													</figure>
+													<a
+														href="{{ path('music_show', {'id': musique.id, 'slug': musique.slug}) }}">
+														<footer class="card-footer transparent is-overlay">
+															<div class="card-footer-item">
+																<span
+																	style="border: 2.5px solid red; border-radius: 50%;">
+																	<i class="fas fa-play-circle fa-5x"
+																		style="color: rgba(18, 18, 18, 0.6); border-radius: 50%; border: 2px solid rgb(255, 255, 255);"></i>
+																</span>
+															</div>
+														</footer>
+													</a>
+												</div>
+											</div>
+										</div>
+										{% endcache %}
+
+										{% endfor %}
+									</div>
+									<div class="has-text-right">
+										<a href="{{path('music')}}" class="has-text-white"
+											style="text-decoration:none;">
+											<span class="icon is-inline-block">
+												<i class="fa fa-angle-double-right"></i>
+											</span>
+											<span class="has-text-weight-bold">Plus de contenu</span>
+
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/js/bulma-carousel.min.js"></script>
+<script>
+	bulmaCarousel.attach('#carousel-demo', {
+		slidesToScroll: 1,
+		slidesToShow: 3,
+		loop: true,
+		autoplay: true,
+		autoplayspeed: 300
+
+	});
+
+</script>
+{% endblock %}

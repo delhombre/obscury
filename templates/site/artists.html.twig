@@ -1,0 +1,93 @@
+{% extends "base.html.twig" %}
+{% block title %}Obscury - Artistes{% endblock %}
+{% block body %}
+<section class="hero is-black is-bold">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title">
+        Vos artistes
+      </h1>
+      <h2 class="subtitle">
+        Rétrouvez vos artistes
+      </h2>
+      <div class="columns is-multiline">
+        {% for user in users %}
+        {% if user.musiques|length != 0 %}
+        <div class="column is-narrow-mobile is-6-tablet is-one-third-desktop">
+          <div class="box omega has-background-grey-darker" style="padding: 5px;border-radius: 30px;">
+            {# <a href="{{path('artist_show', {'id': user.id})}}"> #}
+            <figure class="image is-5by4">
+              {% if user.account.profile == null %}
+              <img src="\profile.jpg" alt="{{user.username}}" style="object-fit: cover;">
+              {% else %}
+              <img src="{{ vich_uploader_asset(user.account, 'profileFile') }}" alt="{{user.username}}"
+                style="object-fit: cover;">
+              {% endif %}
+            </figure>
+            <h2 class="subtitle has-text-right has-text-white is-relative" style="right: 15px;top: 2px;">
+              {{user.username}}
+            </h2>
+            {# </a> #}
+          </div>
+        </div>
+
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+{#<div class="columns is-multiline">
+		    {% for user in users %}
+		    {% if user.musiques|length != 0 %}
+		
+		    <div class="column is-one-third-desktop is-6-tablet">
+		        <div class="box has-background-black-bis omega" style="margin-top: 4rem;">
+		            <div class="media">
+		                <figure class="media-left" style="margin-top: -50px;">
+		                    {% if user.account.profile == null %}
+		                    <img class="image is-128x128 avatarimg" src="/profile.jpg" style="background-color:grey;">
+		                    {% else %}
+		                    <img class="image is-128x128 avatarimg" src="{{ vich_uploader_asset(user.account, 'profileFile') }}"
+		                        style="background-color:grey;">
+		                    {% endif %}
+		                </figure>
+		                <div class="media-content">
+		                    <p class="arcolor gfont is-size-5">{{user.username}}</p>
+		                    <p class="arcolor1 gfont is-size-6">
+		                        &nbsp;·&nbsp;{{user.musiques|length}}{% if user.musiques|length >1 %}
+		                        morceaux
+		                        {% else %}
+		                        morceau
+		                        {% endif %}</p>
+		                    <p class="arcolor2 gfont is-size-6">&nbsp;·&nbsp;{{user.albums|length}}
+		                        {% if user.albums|length >1 %}
+		                        albums
+		                        {% else %}
+		                        album
+		                        {% endif %}</p>
+		                </div>
+		            </div>
+		            {# <nav class="level">
+		                <p class="level-item">
+		                    {% if user.account.profile == null %}
+		                    <img class="image is-128x128 avatarimg" src="/profile.jpg">
+		                    {% else %}
+		                    <img class="image is-128x128 avatarimg" src="{{ vich_uploader_asset(user.account, 'profileFile') }}">
+		                    {% endif %}
+		                </p>
+		            </nav>
+		            <nav class="level">
+		                <div class="level-item has-text-centered">
+		                    <div>
+		                        <p class="title is-4 has-text-grey gfont">{{user.username}}</p>
+		                    </div>
+		                </div>
+		            </nav> 
+		        </div>
+		    </div>
+		
+		    {% endif %}
+		    {% endfor %}
+		</div>#}
+{% endblock %}

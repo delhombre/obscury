@@ -1,0 +1,47 @@
+{% extends "base.html.twig" %}
+{% block title %}Obscury - Albums{% endblock %}
+{% block body %}
+<div class="columns is-multiline">
+	{% for album in albums %}
+	{% if album.musique|length >=1 %}
+	<div class="column is-full">
+		<section class="hero is-medium is-black is-bold">
+			<div class="hero-body">
+				<div class="container">
+					<div class="columns is-gapless is-mobile is-vcentered">
+						<div class="column">
+							<h1 class="is-size-4-mobile is-size-2-desktop has-text-weight-bold">
+								{{album.title}}
+							</h1>
+							<h2 class="has-text-grey-light is-size-6-mobile is-size-4-desktop has-text-weight-light">
+								{{album.user.username}}
+							</h2>
+							<h3 class="is-size-5 has-text-danger">{{album.musique|length}}
+								{% if album.musique|length <=1%}
+								titre
+								{% else %}
+								titres
+								{% endif %}
+							</h3>
+							<small class="has-text-grey is-size-7-mobile">Publié le
+								{{album.createdAt|localizeddate('none', 'none', null, null, 'd MMMM Y')}}</small>
+						</div>
+						<div class="column">
+							<a href="{{path('album_show', {'id':album.id})}}">
+								<figure class="image is-5by4">
+									<img class="has-ratio" src="{{ vich_uploader_asset(album, 'imageFile') }}"
+										alt="{{album.title}}" style="border-radius:5px;">
+								</figure>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	{% endif %}
+	{% endfor %}
+</div>
+{{ knp_pagination_render(albums) }}
+
+{% endblock %}

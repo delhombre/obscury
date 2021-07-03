@@ -1,0 +1,26 @@
+{% extends "base.html.twig" %}
+{% block title %}Obscury - Inscription{% endblock %}
+{% form_theme form 'form/bulma_theme.html.twig' %}
+{% block body %}
+<div class="container">
+    <h1 class="title has-text-centered has-text-warning major_mono">Inscrivez-vous !</h1>
+    <div class="columns">
+        <div class="column is-half is-offset-one-quarter">
+            <div class="box has-background-black-bis omega">
+                {{form_start(form)}}
+                {{form_row(form.username, {'attr':{'placeholder': 'Votre nom d\'utilisateur . . .', 'class': 'has-text-grey'}, 'label': 'Nom d\'utilisateur'})}}
+                {{form_row(form.email, {'attr':{'placeholder': 'Votre adresse email . . .', 'class': 'has-text-grey'}})}}
+                {{form_row(form.password, {'label':'Mot de passe' ,'attr':{'placeholder': 'Entrez votre mot de passe !', 'class': 'has-text-grey'}})}}
+                {{form_row(form.confirm_password, {'label':'Confirmation du mot de passe', 'attr':{'placeholder': 'Répétez votre mot de passe !', 'class': 'has-text-grey'}})}}
+                <div class="control">
+                    <button type="submit" class="button is-primary is-fullwidth is-size-5">Inscription !</button>
+                </div>
+                {{form_end(form)}}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

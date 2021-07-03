@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html class="has-background-black-ter" lang="fr-FR" xmlns:fb="http://ogp.me/ns/fb#" prefix="og:http://ogp.me/ns#">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{# seo #}
+	<link rel="shortcut icon" href="https://www.obscury.com/favicon/favicon-96x96.png">
+	<meta property="og:locale" content="fr_FR">
+	<meta property="fb_app:id" content="727027224751145">
+	<meta property="og:type" content="website">
+	{% block head %}
+	<meta name="description" content="OBSCURY - Votre plateforme de streaming et de telechargement de hits">
+	<meta property="og:title" content="OBSCURY: Streaming de musiques, telechargements et partages de hits">
+	<meta property="og:description" content="OBSCURY est une plateforme de musiques qui permet aux artistes de partager leurs chansons et aux fans de decouvrir de nouveaux artistes, albums, mixtapes et plus.">
+	<meta name="keywords" content="streaming, telechargements, musiques, hits, videos, chansons, partage">
+	<meta property="og:url" content="https://www.obscury.com">
+	<meta property="og:site_name" content="obscury.com">
+	<meta property="og:image" content="http://www.obscury.com/Logos/logo2.png">
+	<meta property="og:image:secure_url" content="https://www.obscury.com/Logos/logo2.png">
+	{% endblock %}
+	{# endseo #}
+	<title>
+		{% block title %}
+		OBSCURY
+		{% endblock %}
+	</title>
+	<link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.min.css' />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/bulma-pageloader/bulma-pageloader.min.css">
+	<link rel="stylesheet" href="/test.css">
+	<link rel="stylesheet" href="/CDN.css">
+	{# favicon #}
+	<link rel="apple-touch-icon" sizes="57x57" href="https://obscury.com/favicon/apple-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="https://obscury.com/favicon/apple-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="https://obscury.com/favicon/apple-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="https://obscury.com/favicon/apple-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="https://obscury.com/favicon/apple-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="https://obscury.com/favicon/apple-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="https://obscury.com/favicon/apple-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="https://obscury.com/favicon/apple-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="https://obscury.com/favicon/apple-icon-180x180.png">
+	<link rel="icon" type="image/png" sizes="192x192" href="https://obscury.com/favicon/android-icon-192x192.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="https://obscury.com/favicon/favicon-32x32.png">
+	<link rel="icon" type="image/png" href="https://obscury.com/favicon/favicon-96x96.png">
+	<link rel="icon" type="image/png" href="https://obscury.com/favicon/favicon-16x16.png">
+	<link rel="manifest" href="https://obscury.com/favicon/manifest.json">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<meta name="msapplication-TileImage" content="https://obscury.com/favicon/ms-icon-144x144.png">
+	<meta name="theme-color" content="#ffffff">
+	{# endfavicon #}
+	<style>
+	    .has-text-obscury {
+            color: #ff1654;
+        }
+	</style>
+	{% block stylesheets %}{% endblock %}
+</head>
+
+<body class="has-navbar-fixed-top has-text-white-ter">
+	<div class="block">
+		{{include('navbar.html.twig')}}
+	</div>
+
+	{#<div class="pageloader is-black is-active"></div>#}
+
+	{% block body %}{% endblock %}
+
+	{{include('footer.html.twig')}}
+
+	<script>
+// 		window.addEventListener("load", () => {
+// 			document.querySelector(".pageloader").classList.remove("is-active");
+// 		});
+
+		document.addEventListener('DOMContentLoaded', () => { // Get all "navbar-burger" elements
+			const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+			// Check if there are any navbar burgers
+			if ($navbarBurgers.length > 0) { // Add a click event on each of them
+				$navbarBurgers.forEach(el => {
+					el.addEventListener('click', () => { // Get the target from the "data-target" attribute
+						const target = el.dataset.target;
+						const $target = document.getElementById(target);
+
+						// Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+						el.classList.toggle('is-active');
+						$target.classList.toggle('is-active');
+
+					});
+				});
+			}
+
+		});
+
+	</script>
+	<script src='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/js/all.min.js'></script>
+	{% block javascripts %}{% endblock %}
+</body>
+
+</html>

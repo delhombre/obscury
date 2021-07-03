@@ -1,0 +1,92 @@
+{% extends "base.html.twig" %}
+{% block title %}Obscury - Contact{% endblock %}
+{% block body %}
+{% for message in app.flashes('contact_success') %}
+<article class="message is-success">
+	<div class="message-body">
+		{{message}}
+	</div>
+</article>
+{% endfor %}
+<section class="hero">
+	<div class="hero-body">
+		<div class="container">
+			<h1 class="title has-text-centered has-text-white major_mono">Contactez-nous !</h1>
+			<div class="columns">
+				<div class="column">
+					<div class="box has-background-black-bis has-text-white">
+						<div class="icon is-large is-inline-block">
+							<i class="fa fa-mobile-alt fa-2x"></i>
+						</div>
+						<div class="is-size-5 is-inline-block">Téléphone
+							<br>
+							<span class="is-size-7">+223 78 45 98 51</span>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="box has-background-black-bis has-text-white">
+						<div class="icon is-large is-inline-block">
+							<i class="fa fa-envelope fa-2x"></i>
+						</div>
+						<div class="is-size-5 is-inline-block">Email
+							<br>
+							<span class="is-size-7">contact@obscury.com</span>
+						</div>
+					</div>
+				</div>
+				<div class="column">
+					<div class="box has-background-black-bis  has-text-white">
+						<div class="icon is-large is-inline-block">
+							<i class="fa fa-map-marker fa-2x"></i>
+						</div>
+						<div class="is-size-5 is-inline-block">Adresse
+							<br>
+							<span class="is-size-7">Boulkassoumbougou, Bko ML</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="content">
+				<span class="icon is-inline-block is-medium"><i class="fa fa-paper-plane fa-lg"></i></span>
+				<h1 class="title is-size-4 has-text-white is-inline-block is-italic">Laissez un message</h1>
+			</div>
+			{{form_start(form)}}
+			<div class="columns is-multiline">
+				<div class="column is-one-third">
+					<div class="field">
+						<label for="contact_name" class="label has-text-grey">Prénom et Nom</label>
+						{{form_widget(form.name, {'attr':{'placeholder':'Entrez votre prénom et votre nom'}})}}
+					</div>
+				</div>
+				<div class="column is-one-third">
+					<div class="field">
+						<label for="contact_phone" class="label has-text-grey">Numéro de téléphone</label>
+						{{form_widget(form.phone, {'attr':{'placeholder':'Votre numéro de téléphone'}})}}
+					</div>
+				</div>
+				<div class="column is-one-third">
+					<div class="field">
+						<label for="contact_email" class="label has-text-grey">Adresse Mail</label>
+						{{form_widget(form.email, {'attr':{'placeholder':'Votre adresse électronique'}})}}
+					</div>
+				</div>
+				<div class="column is-full">
+					<div class="field">
+						<label for="contact_message" class="label has-text-grey">Objet du message</label>
+						{{form_widget(form.object, {'attr':{'placeholder':'Saisissez l\'objet de votre message ...'}})}}
+					</div>
+				</div>
+				<div class="column is-full">
+					<div class="field">
+						<label for="contact_message" class="label has-text-grey">Votre message</label>
+						{{form_widget(form.message, {'attr':{'placeholder':'Saisissez votre message ...'}})}}
+					</div>
+				</div>
+			</div>
+			<button type="submit" class="button is-rounded is-primary content">Envoyer</button>
+			{{form_end(form)}}
+		</div>
+	</div>
+</section>
+{% endblock %}

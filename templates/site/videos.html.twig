@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+{% block title %}Obscury - Vidéos{% endblock %}
+{% block body %}
+<div class="columns is-centered is-multiline">
+    {% for video in videos %}
+    {% cache 'video' ~ video.id 100 %}
+
+    <div class="column is-three-fifths">
+        <div class="box has-background-black-ter omega">
+            <figure class="image is-16by9 content">
+                <iframe class="has-ratio" width="640" height="360" src="{{video.url}}" frameborder="0" allowfullscreen
+                    style="border-radius: 10px;"></iframe>
+            </figure>
+            <p class="subtitle is-size-5-mobile has-text-centered is-uppercase">
+                <span style="color: #1d7874;">
+                    {{video.user}} {% if video.featuring %} <span class="is-lowercase has-text-grey">feat</span>
+                    {{video.featuring}} {% endif %}
+                </span>
+                <span class="has-text-weight-bold">&nbsp;-&nbsp;</span>
+                <span class="has-text-weight-light" style="color: #f67e7d;">
+                    {{video.title}}
+                </span>
+            </p>
+        </div>
+    </div>
+    {% endcache %}
+
+    {% else %}
+    <p class="subtitle is-size-4-desktop is-size-5-mobile has-text-centered has-text-white">
+        Aucune vidéo n'a été trouvé.
+    </p>
+    {% endfor %}
+</div>
+{{ knp_pagination_render(videos) }}
+{% endblock %}
