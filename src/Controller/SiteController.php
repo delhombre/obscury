@@ -17,6 +17,7 @@ use App\Service\Mailer\MailerService;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,7 +31,7 @@ class SiteController extends AbstractController
     protected $stopwatch;
     protected $cache;
 
-    public function __construct(ObjectManager $manager, Stopwatch $stopwatch, CacheInterface $cache)
+    public function __construct(EntityManagerInterface $manager, Stopwatch $stopwatch, CacheInterface $cache)
     {
         $this->manager = $manager;
         $this->stopwatch = $stopwatch;
