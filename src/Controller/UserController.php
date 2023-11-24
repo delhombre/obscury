@@ -13,7 +13,7 @@ use App\Repository\SubscriptionRepository;
 use App\Service\Account\AccountService;
 use App\Service\Subscription\SubscriptionService;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,17 +21,24 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class UserController extends AbstractController
 {
+    protected $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
+
     /**
      * @Route("/profile", name="user_account")
      */
-    public function index(Request $request, ObjectManager $manager, SubscriptionRepository $repo, SubscriptionService $subscriptionService, AccountService $accountService)
+    public function index(Request $request, SubscriptionRepository $repo, SubscriptionService $subscriptionService, AccountService $accountService)
     {
         $user = $this->getUser();
         $account = $user->getAccount();
         $musique = new Musique();
         $album = new Album();
 
-        $subscriptionService->isActiveSubscription($user, $manager);
+        $subscriptionService->isActiveSubscription($user, $this->manager);
 
         if ($user->getSubscriptionBeginAt()) {
             $date = $user->getSubscriptionBeginAt()->diff($user->getSubscriptionEndAt(), \true)->days;
@@ -39,18 +46,18 @@ class UserController extends AbstractController
             $date = \null;
         }
 
-        $subscriptionService->subscriptionChecker($user, $user->getAmateurIsActive(), $date, 3, $manager);
+        $subscriptionService->subscriptionChecker($user, $user->getAmateurIsActive(), $date, 3, $this->manager);
 
-        $subscriptionService->subscriptionChecker($user, $user->getGoldenIsActive(), $date, 7, $manager);
+        $subscriptionService->subscriptionChecker($user, $user->getGoldenIsActive(), $date, 7, $this->manager);
 
-        $subscriptionService->subscriptionChecker($user, $user->getPremiumIsActive(), $date, 15, $manager);
+        $subscriptionService->subscriptionChecker($user, $user->getPremiumIsActive(), $date, 15, $this->manager);
 
         //Form Profile
         $formProfile = $this->createForm(ProfileType::class, $account);
         $formProfile->handleRequest($request);
         if ($formProfile->isSubmitted() && $formProfile->isValid()) {
-            $manager->persist($account);
-            $manager->flush();
+            $this->manager->persist($account);
+            $this->manager->flush();
 
             return $this->redirectToRoute('user_account');
         }
@@ -60,8 +67,8 @@ class UserController extends AbstractController
         $formUsername = $this->createForm(UsernameType::class, $user);
         $formUsername->handleRequest($request);
         if ($formUsername->isSubmitted() && $formUsername->isValid()) {
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             return $this->redirectToRoute('user_account');
         }
@@ -73,9 +80,9 @@ class UserController extends AbstractController
             $musique->setCreatedAt(new \DateTime());
 
             $musique->setUser($user);
-            $manager->persist($musique);
+            $this->manager->persist($musique);
 
-            $manager->flush();
+            $this->manager->flush();
 
             return $this->redirectToRoute('user_musics_show');
         }
@@ -88,8 +95,8 @@ class UserController extends AbstractController
             $album->setCreatedAt(new \DateTime());
             $album->setUser($user);
 
-            $manager->persist($album);
-            $manager->flush();
+            $this->manager->persist($album);
+            $this->manager->flush();
 
             $this->addFlash('success', 'Votre album a bien été crée.');
             return $this->redirectToRoute('user_account');
@@ -114,18 +121,18 @@ class UserController extends AbstractController
      * 
      * @Route("/profile/account/{id}/delete", name="delete_user", methods="DELETE")
      */
-    public function deleteUser(User $user, ObjectManager $manager, Request $request)
+    public function deleteUser(User $user, Request $request)
     {
         $account = $user->getAccount();
-        // dd($user);
+
         if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->get('_token'))) {
             if ($user) {
                 $session = $this->get('session');
                 $session = new Session();
                 $session->invalidate();
-                $manager->remove($account);
-                $manager->remove($user);
-                $manager->flush();
+                $this->manager->remove($account);
+                $this->manager->remove($user);
+                $this->manager->flush();
             }
             $this->addFlash('success', 'Votre compte a été supprimé !');
         }
@@ -138,7 +145,7 @@ class UserController extends AbstractController
      * @Route("/profile/mes-musiques", name="user_musics_show")
      * @Route("/profile/mes-musiques/{id}/edit", name="music_edit")
      */
-    public function musiqueForm(Musique $musique = null, Request $request, ObjectManager $manager)
+    public function musiqueForm(Musique $musique = null, Request $request)
     {
         $user = $this->getUser();
         $musics = $user->getMusiques();
@@ -148,9 +155,9 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $musique->setUser($user);
-            $manager->persist($musique);
+            $this->manager->persist($musique);
 
-            $manager->flush();
+            $this->manager->flush();
 
             //$this->addFlash('success', 'Votre musique a bien été modifiée !');
             return $this->redirectToRoute('user_musics_show');
@@ -169,12 +176,12 @@ class UserController extends AbstractController
      * Suppression d'une musique
      * @Route("/profile/music/{id}/delete/", name="music_delete", methods="DELETE")
      */
-    public function deleteMusic(Musique $musique, ObjectManager $manager, Request $request)
+    public function deleteMusic(Musique $musique, Request $request)
     {
         try {
             if ($this->isCsrfTokenValid('delete' . $musique->getId(), $request->get('_token'))) {
-                $manager->remove($musique);
-                $manager->flush();
+                $this->manager->remove($musique);
+                $this->manager->flush();
             }
             return $this->redirectToRoute("user_musics_show");
         } catch (\Throwable $th) {
@@ -187,10 +194,9 @@ class UserController extends AbstractController
     //  *
     //  * @Route("/profile/supprimer-photo-de-profil", name="delete_avatar")
     //  * 
-    //  * @param ObjectManager $manager
     //  * @return void
     //  */
-    // public function deleteAvatar(ObjectManager $manager)
+    // public function deleteAvatar()
     // {
     //     //Utilisateur courant
     //     // $user = $this->getUser();
