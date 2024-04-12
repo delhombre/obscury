@@ -9,7 +9,7 @@ use App\Form\RegistrationType;
 use App\Repository\UserRepository;
 use App\Service\Mailer\MailerService;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -22,6 +22,12 @@ use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
 class SecurityController extends AbstractController
 {
+    protected $manager;
+
+    public function __construct(EntityManagerInterface $manager)
+    {
+        $this->manager = $manager;
+    }
 
     /**
      *
@@ -38,7 +44,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/inscription", name="security_registration")
      */
-    public function registration(Request $request, ObjectManager $manager, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator, MailerService $mailer)
+    public function registration(Request $request, UserPasswordEncoderInterface $encoder, TokenGeneratorInterface $tokenGenerator, MailerService $mailer)
     {
         $user = new User();
         $account = new Account();
@@ -52,8 +58,8 @@ class SecurityController extends AbstractController
                 ->setCreatedAt(new \DateTime())
                 ->setConfirmationToken($tokenGenerator->generateToken())
                 ->setAccount($account);
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             // on utilise le service Mailer
             $bodyMail = $mailer->createBodyMail('security/confirmationMail.html.twig', [
@@ -73,14 +79,14 @@ class SecurityController extends AbstractController
     /**
      * @Route("/register/confirm/{token}/{id}", name="security_confirmAccount")
      */
-    public function confirmAccount(User $user, $token, ObjectManager $manager)
+    public function confirmAccount(User $user, $token)
     {
         //$user = $repo->findOneBy(['username' => $username]);
         if ($user->getConfirmationToken() !== null || $token === $user->getConfirmationToken() || $this->isRequestInTime($user->getCreatedAt())) {
             $user->setConfirmationToken(null)
                 ->setIsActive(true);
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             return $this->redirectToRoute('security_login');
         } else {
@@ -113,7 +119,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reset-password", name="security_resetPassword")
      */
-    public function resetPassword(Request $request, ObjectManager $manager, UserRepository $repo, MailerService $mailer, TokenGeneratorInterface $tokenGenerator)
+    public function resetPassword(Request $request, UserRepository $repo, MailerService $mailer, TokenGeneratorInterface $tokenGenerator)
     {
         // création d'un formulaire "à la volée", afin que l'internaute puisse renseigner son mail
         $form = $this->createFormBuilder()
@@ -140,8 +146,8 @@ class SecurityController extends AbstractController
             $user->setToken($tokenGenerator->generateToken());
             // enregistrement de la date de création du token
             $user->setPasswordRequestedAt(new \Datetime());
-            $manager->persist($user);
-            $manager->flush();
+            $this->manager->persist($user);
+            $this->manager->flush();
 
             // on utilise le service Mailer créé précédemment
             $bodyMail = $mailer->createBodyMail('security/mail.html.twig', [
