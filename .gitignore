@@ -27,3 +27,6 @@ yarn-error.log
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+# Ignore the generated mysql folder by docker-compose
+/mysql/
