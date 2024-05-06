@@ -15,7 +15,7 @@ services:
       - nginx-php-mysql
   php:
     build:
-      context: ./tools/php
+      context: .
       dockerfile: Dockerfile
     container_name: php-obscury
     ports:

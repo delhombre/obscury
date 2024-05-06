@@ -13,4 +13,4 @@ COPY . /var/www/obscury
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
+RUN COMPOSER_ALLOW_SUPERUSER=1 composer install
